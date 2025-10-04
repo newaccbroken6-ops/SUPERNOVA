@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>KeyAuth Debug Info</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        .debug-container {
+            background: rgba(44, 62, 80, 0.7);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            border: 1px solid rgba(52, 152, 219, 0.5);
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.5);
+            padding: 40px;
+            width: 100%;
+            max-width: 800px;
+            text-align: left;
+            margin: 20px auto;
+        }
+        
+        .debug-container h2 {
+            color: #3498db;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+        
+        .debug-info {
+            background: rgba(52, 73, 94, 0.7);
+            border-radius: 10px;
+            padding: 20px;
+            margin: 15px 0;
+            color: #ecf0f1;
+            font-family: monospace;
+            white-space: pre-wrap;
+            overflow-x: auto;
+        }
+        
+        .btn-debug {
+            width: 100%;
+            padding: 15px;
+            background: linear-gradient(90deg, #2980b9, #3498db);
+            border: none;
+            border-radius: 10px;
+            color: #ffffff;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 10px;
+            margin-top: 20px;
+        }
+        
+        .btn-debug:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px rgba(52, 152, 219, 0.5);
+        }
+        
+        .btn-debug:active {
+            transform: translateY(0);
+        }
+        
+        .back-link {
+            display: block;
+            text-align: center;
+            margin-top: 20px;
+            color: #3498db;
+            text-decoration: none;
+        }
+        
+        .back-link:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="debug-container">
+            <h2><i class="fas fa-bug"></i> KeyAuth Debug Information</h2>
+            <p>This page shows the raw data returned by KeyAuth for debugging purposes.</p>
+            
+            <div class="debug-info" id="userData">
+                Loading user data...
+            </div>
+            
+            <button class="btn-debug" id="refreshData">
+                <i class="fas fa-sync-alt"></i> Refresh Data
+            </button>
+            
+            <a href="dashboard.html" class="back-link">
+                <i class="fas fa-arrow-left"></i> Back to Dashboard
+            </a>
+        </div>
+    </div>
+    
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const userDataElement = document.getElementById('userData');
+            const refreshButton = document.getElementById('refreshData');
+            
+            function displayUserData() {
+                try {
+                    const userData = localStorage.getItem('keyauth_user');
+                    if (userData) {
+                        const parsedData = JSON.parse(userData);
+                        userDataElement.textContent = JSON.stringify(parsedData, null, 2);
+                    } else {
+                        userDataElement.textContent = 'No user data found in localStorage';
+                    }
+                } catch (error) {
+                    userDataElement.textContent = 'Error parsing user data: ' + error.message;
+                }
+            }
+            
+            refreshButton.addEventListener('click', displayUserData);
+            
+            displayUserData();
+        });
+    </script>
+</body>
+</html>

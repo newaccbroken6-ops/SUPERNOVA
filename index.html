@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SUPER NOVA | Secure Login</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <!-- Video Background -->
+    <video autoplay muted loop class="video-bg">
+        <source src="veil-of-darkness.1920x1080.mp4" type="video/mp4">
+        <!-- Fallback to gradient if video doesn't load -->
+    </video>
+    
+    <div class="container">
+        <div class="login-container">
+            <div class="logo">
+                <!-- Custom Logo -->
+                <img src="SuperNova_Logo_White.png" alt="Logo" class="custom-logo">
+                <h2>SUPER NOVA</h2>
+                <p>Secure Authentication System</p>
+            </div>
+            
+            <form id="loginForm" class="login-form">
+                <div class="input-group">
+                    <label for="username">Username</label>
+                    <div class="input-field">
+                        <i class="fas fa-user"></i>
+                        <input type="text" id="username" placeholder="Enter your username" required>
+                    </div>
+                </div>
+                
+                <div class="input-group">
+                    <label for="password">Password</label>
+                    <div class="input-field">
+                        <i class="fas fa-key"></i>
+                        <input type="password" id="password" placeholder="Enter your password" required>
+                    </div>
+                </div>
+                
+                <div class="input-group license-group" style="display: none;">
+                    <label for="license">License Key</label>
+                    <div class="input-field">
+                        <i class="fas fa-key"></i>
+                        <input type="text" id="license" placeholder="Enter your license key">
+                    </div>
+                </div>
+                
+                <button type="submit" class="btn-login">
+                    <span>Login</span>
+                    <i class="fas fa-arrow-right"></i>
+                </button>
+                
+                <div class="form-footer">
+                    <a href="#" id="toggleRegister">Don't have an account? Register</a>
+                </div>
+            </form>
+            
+            <form id="registerForm" class="login-form" style="display: none;">
+                <div class="input-group">
+                    <label for="regUsername">Username</label>
+                    <div class="input-field">
+                        <i class="fas fa-user"></i>
+                        <input type="text" id="regUsername" placeholder="Choose a username" required>
+                    </div>
+                </div>
+                
+                <div class="input-group">
+                    <label for="regPassword">Password</label>
+                    <div class="input-field">
+                        <i class="fas fa-key"></i>
+                        <input type="password" id="regPassword" placeholder="Create a password" required>
+                    </div>
+                </div>
+                
+                <div class="input-group">
+                    <label for="regLicense">License Key</label>
+                    <div class="input-field">
+                        <i class="fas fa-key"></i>
+                        <input type="text" id="regLicense" placeholder="Enter your license key" required>
+                    </div>
+                </div>
+                
+                <button type="submit" class="btn-login">
+                    <span>Register</span>
+                    <i class="fas fa-user-plus"></i>
+                </button>
+                
+                <div class="form-footer">
+                    <a href="#" id="toggleLogin">Already have an account? Login</a>
+                </div>
+            </form>
+            
+            <div class="status-message" id="statusMessage"></div>
+        </div>
+        
+        
+        </div>
+    </div>
+    
+    <script src="keyauth.js"></script>
+    <script src="app.js"></script>
+</body>
+</html>

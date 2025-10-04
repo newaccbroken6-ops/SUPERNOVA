@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard | SUPER NOVA</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <div class="dashboard-container">
+        <div class="sidebar">
+            <div class="logo">
+                <!-- Custom Logo -->
+                <img src="SuperNova_Logo_White.png" alt="Logo" class="custom-logo-sidebar">
+                <h2>SUPER NOVA</h2>
+            </div>
+            <ul class="nav-links">
+                <li>
+                    <a href="#" class="active">
+                        <i class="fas fa-home"></i>
+                        <span>Dashboard</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="#">
+                        <i class="fas fa-user"></i>
+                        <span>Profile</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="admin.html">
+                        <i class="fas fa-user-shield"></i>
+                        <span>Admin Panel</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="debug.html">
+                        <i class="fas fa-bug"></i>
+                        <span>Debug Info</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="#">
+                        <i class="fas fa-question-circle"></i>
+                        <span>Help</span>
+                    </a>
+                </li>
+            </ul>
+            <div class="logout-btn">
+                <a href="index.html">
+                    <i class="fas fa-sign-out-alt"></i>
+                    <span>Logout</span>
+                </a>
+            </div>
+        </div>
+        
+        <div class="main-content">
+            <header>
+                <h1>Dashboard</h1>
+                <div class="user-info">
+                    <div class="admin-login-section">
+                        <button id="adminLoginBtn" class="admin-login-btn">
+                            <i class="fas fa-user-shield"></i> Admin Access
+                        </button>
+                        <div id="adminLoginForm" class="admin-login-form" style="display: none;">
+                            <input type="password" id="adminPassword" placeholder="Admin Password" class="admin-password-input">
+                            <button id="confirmAdminAccess" class="confirm-admin-btn">Confirm</button>
+                            <button id="cancelAdminAccess" class="cancel-admin-btn">Cancel</button>
+                        </div>
+                    </div>
+                    <i class="fas fa-bell"></i>
+                    <div class="user-profile">
+                        <i class="fas fa-user-circle"></i>
+                        <span id="usernameDisplay">User</span>
+                    </div>
+                </div>
+            </header>
+            
+            <div class="dashboard-content">
+                <div class="welcome-card">
+                    <h2>Welcome back, <span id="welcomeUsername">User</span>!</h2>
+                    <p>You have successfully logged in to SUPER NOVA</p>
+                </div>
+                
+                <div class="stats-container">
+                    <div class="stat-card">
+                        <div class="stat-icon">
+                            <i class="fas fa-clock"></i>
+                        </div>
+                        <div class="stat-info">
+                            <h3>Last Access</h3>
+                            <p id="lastAccess">Loading...</p>
+                        </div>
+                    </div>
+                    
+                    <div class="stat-card">
+                        <div class="stat-icon">
+                            <i class="fas fa-calendar-alt"></i>
+                        </div>
+                        <div class="stat-info">
+                            <h3>Registration Date</h3>
+                            <p id="registrationDate">Loading...</p>
+                        </div>
+                    </div>
+                    
+                    <div class="stat-card">
+                        <div class="stat-icon">
+                            <i class="fas fa-key"></i>
+                        </div>
+                        <div class="stat-info">
+                            <h3>License Status</h3>
+                            <p id="licenseStatus">Loading...</p>
+                        </div>
+                    </div>
+                    
+                    <div class="stat-card">
+                        <div class="stat-icon">
+                            <i class="fas fa-user-check"></i>
+                        </div>
+                        <div class="stat-info">
+                            <h3>Account Type</h3>
+                            <p id="accountType">Loading...</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="activity-section">
+                    <h3>Recent Activity</h3>
+                    <div class="activity-list" id="activityList">
+                        <!-- Activities will be loaded here -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <script src="dashboard.js"></script>
+</body>
+</html>

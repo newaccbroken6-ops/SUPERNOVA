@@ -1,0 +1,961 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Panel | SUPER NOVA</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        .admin-container {
+            padding: 30px;
+            width: 100%;
+        }
+        
+        .admin-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+        }
+        
+        .admin-header h1 {
+            color: #64ffda;
+            font-size: 2rem;
+        }
+        
+        .admin-stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+        
+        .admin-stat-card {
+            background: rgba(16, 42, 75, 0.7);
+            border-radius: 15px;
+            padding: 20px;
+            border: 1px solid rgba(100, 255, 218, 0.1);
+            text-align: center;
+            transition: transform 0.3s ease;
+        }
+        
+        .admin-stat-card:hover {
+            transform: translateY(-5px);
+        }
+        
+        .admin-stat-card h3 {
+            color: #8892b0;
+            margin-bottom: 10px;
+        }
+        
+        .admin-stat-card p {
+            color: #64ffda;
+            font-size: 2rem;
+            font-weight: 600;
+        }
+        
+        .admin-actions {
+            background: rgba(16, 42, 75, 0.7);
+            border-radius: 15px;
+            padding: 25px;
+            border: 1px solid rgba(100, 255, 218, 0.1);
+            margin-bottom: 30px;
+        }
+        
+        .admin-actions h2 {
+            color: #64ffda;
+            margin-bottom: 20px;
+        }
+        
+        .action-buttons {
+            display: flex;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+        
+        .action-btn {
+            padding: 12px 20px;
+            border: none;
+            border-radius: 8px;
+            background: rgba(100, 255, 218, 0.1);
+            color: #64ffda;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .action-btn:hover {
+            background: rgba(100, 255, 218, 0.2);
+            transform: translateY(-2px);
+        }
+        
+        .users-table {
+            background: rgba(16, 42, 75, 0.7);
+            border-radius: 15px;
+            padding: 25px;
+            border: 1px solid rgba(100, 255, 218, 0.1);
+        }
+        
+        .users-table h2 {
+            color: #64ffda;
+            margin-bottom: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .search-box {
+            margin-bottom: 20px;
+        }
+        
+        .search-box input {
+            width: 100%;
+            padding: 12px 15px;
+            background: rgba(52, 73, 94, 0.7);
+            border: 1px solid rgba(100, 255, 218, 0.3);
+            border-radius: 10px;
+            color: #ffffff;
+            font-size: 1rem;
+        }
+        
+        .search-box input:focus {
+            outline: none;
+            border-color: #64ffda;
+            background: rgba(100, 255, 218, 0.1);
+        }
+        
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        
+        th, td {
+            padding: 15px;
+            text-align: left;
+            border-bottom: 1px solid rgba(100, 255, 218, 0.1);
+        }
+        
+        th {
+            color: #64ffda;
+            font-weight: 600;
+            cursor: pointer;
+            user-select: none;
+        }
+        
+        th:hover {
+            background: rgba(100, 255, 218, 0.1);
+        }
+        
+        td {
+            color: #ccd6f6;
+        }
+        
+        .status-active {
+            color: #2ecc71;
+            font-weight: 500;
+        }
+        
+        .status-inactive {
+            color: #e74c3c;
+            font-weight: 500;
+        }
+        
+        .status-expired {
+            color: #f39c12;
+            font-weight: 500;
+        }
+        
+        .action-cell {
+            display: flex;
+            gap: 10px;
+        }
+        
+        .btn-small {
+            padding: 5px 10px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 0.8rem;
+            transition: all 0.3s ease;
+        }
+        
+        .btn-activate {
+            background: rgba(46, 204, 113, 0.2);
+            color: #2ecc71;
+        }
+        
+        .btn-activate:hover {
+            background: rgba(46, 204, 113, 0.3);
+        }
+        
+        .btn-deactivate {
+            background: rgba(231, 76, 60, 0.2);
+            color: #e74c3c;
+        }
+        
+        .btn-deactivate:hover {
+            background: rgba(231, 76, 60, 0.3);
+        }
+        
+        .btn-delete {
+            background: rgba(149, 165, 166, 0.2);
+            color: #95a5a6;
+        }
+        
+        .btn-delete:hover {
+            background: rgba(149, 165, 166, 0.3);
+        }
+        
+        .btn-reset {
+            background: rgba(52, 152, 219, 0.2);
+            color: #3498db;
+        }
+        
+        .btn-reset:hover {
+            background: rgba(52, 152, 219, 0.3);
+        }
+        
+        .back-link {
+            display: inline-block;
+            margin-top: 20px;
+            color: #64ffda;
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+        
+        .back-link:hover {
+            text-decoration: underline;
+        }
+        
+        .notification {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            padding: 15px 20px;
+            border-radius: 8px;
+            color: white;
+            font-weight: 500;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+            z-index: 1000;
+            transform: translateX(100%);
+            transition: transform 0.3s ease;
+        }
+        
+        .notification.show {
+            transform: translateX(0);
+        }
+        
+        .notification.success {
+            background: rgba(46, 204, 113, 0.9);
+        }
+        
+        .notification.error {
+            background: rgba(231, 76, 60, 0.9);
+        }
+        
+        .notification.warning {
+            background: rgba(243, 156, 18, 0.9);
+        }
+        
+        .loading {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 3px solid rgba(255,255,255,.3);
+            border-radius: 50%;
+            border-top-color: #64ffda;
+            animation: spin 1s ease-in-out infinite;
+        }
+        
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+        
+        .keyauth-info {
+            background: rgba(16, 42, 75, 0.7);
+            border-radius: 15px;
+            padding: 20px;
+            border: 1px solid rgba(100, 255, 218, 0.1);
+            margin-bottom: 20px;
+        }
+        
+        .keyauth-info h3 {
+            color: #64ffda;
+            margin-bottom: 10px;
+        }
+        
+        .keyauth-info p {
+            color: #8892b0;
+            margin: 5px 0;
+        }
+        
+        .error-message {
+            text-align: center;
+            padding: 20px;
+            color: #e74c3c;
+            background: rgba(231, 76, 60, 0.1);
+            border-radius: 10px;
+            margin: 20px 0;
+        }
+        
+        .api-info {
+            background: rgba(16, 42, 75, 0.7);
+            border-radius: 15px;
+            padding: 20px;
+            border: 1px solid rgba(100, 255, 218, 0.1);
+            margin: 20px 0;
+        }
+        
+        .api-info h3 {
+            color: #64ffda;
+            margin-bottom: 10px;
+        }
+        
+        .api-info p {
+            color: #8892b0;
+            margin: 10px 0;
+        }
+        
+        .api-info code {
+            background: rgba(0, 0, 0, 0.3);
+            padding: 2px 5px;
+            border-radius: 3px;
+            font-family: monospace;
+        }
+        
+        .api-endpoints {
+            background: rgba(0, 0, 0, 0.2);
+            border-radius: 8px;
+            padding: 15px;
+            margin-top: 10px;
+        }
+        
+        .api-endpoint {
+            margin: 8px 0;
+            padding: 8px;
+            border-left: 3px solid #64ffda;
+            padding-left: 12px;
+        }
+        
+        /* Admin access verification modal */
+        .admin-access-modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 10000;
+        }
+        
+        .admin-access-form {
+            background: rgba(10, 25, 47, 0.95);
+            border: 1px solid rgba(100, 255, 218, 0.3);
+            border-radius: 15px;
+            padding: 30px;
+            width: 100%;
+            max-width: 400px;
+            text-align: center;
+        }
+        
+        .admin-access-form h2 {
+            color: #64ffda;
+            margin-bottom: 20px;
+        }
+        
+        .admin-access-form input {
+            width: 100%;
+            padding: 12px;
+            margin: 15px 0;
+            background: rgba(52, 73, 94, 0.7);
+            border: 1px solid rgba(100, 255, 218, 0.3);
+            border-radius: 10px;
+            color: #ffffff;
+            font-size: 1rem;
+        }
+        
+        .admin-access-form input:focus {
+            outline: none;
+            border-color: #64ffda;
+            background: rgba(100, 255, 218, 0.1);
+        }
+        
+        .admin-access-form button {
+            width: 100%;
+            padding: 12px;
+            background: linear-gradient(90deg, #2980b9, #3498db);
+            border: none;
+            border-radius: 10px;
+            color: #ffffff;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-top: 10px;
+        }
+        
+        .admin-access-form button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px rgba(52, 152, 219, 0.5);
+        }
+    </style>
+</head>
+<body>
+    <!-- Admin Access Verification Modal -->
+    <div id="adminAccessModal" class="admin-access-modal">
+        <div class="admin-access-form">
+            <h2>Admin Panel Access</h2>
+            <p>Please enter the admin password to continue</p>
+            <input type="password" id="adminAccessPassword" placeholder="Admin Password">
+            <button id="verifyAdminAccess">Verify Access</button>
+        </div>
+    </div>
+    
+    <div class="dashboard-container">
+        <div class="sidebar">
+            <div class="logo">
+                <!-- Custom Logo -->
+                <img src="SuperNova_Logo_White.png" alt="Logo" class="custom-logo-sidebar">
+                <h2>SUPER NOVA</h2>
+            </div>
+            <ul class="nav-links">
+                <li>
+                    <a href="dashboard.html">
+                        <i class="fas fa-home"></i>
+                        <span>Dashboard</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="#">
+                        <i class="fas fa-user"></i>
+                        <span>Profile</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="#" class="active">
+                        <i class="fas fa-user-shield"></i>
+                        <span>Admin Panel</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="debug.html">
+                        <i class="fas fa-bug"></i>
+                        <span>Debug Info</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="#">
+                        <i class="fas fa-question-circle"></i>
+                        <span>Help</span>
+                    </a>
+                </li>
+            </ul>
+            <div class="logout-btn">
+                <a href="index.html">
+                    <i class="fas fa-sign-out-alt"></i>
+                    <span>Logout</span>
+                </a>
+            </div>
+        </div>
+        
+        <div class="main-content">
+            <header>
+                <h1>Admin Panel</h1>
+                <div class="user-info">
+                    <i class="fas fa-bell"></i>
+                    <div class="user-profile">
+                        <i class="fas fa-user-circle"></i>
+                        <span id="usernameDisplay">User</span>
+                    </div>
+                </div>
+            </header>
+            
+            <div class="admin-container" id="adminContainer">
+                <div class="keyauth-info">
+                    <h3>KeyAuth Connection</h3>
+                    <p><strong>Application:</strong> <span id="appName">Loading...</span></p>
+                    <p><strong>Owner ID:</strong> <span id="ownerId">Loading...</span></p>
+                    <p><strong>Status:</strong> <span id="connectionStatus">Connecting...</span></p>
+                </div>
+                
+                <div class="api-info">
+                    <h3>API Integration Information</h3>
+                    <p>This admin panel demonstrates how user management would work with KeyAuth in a production environment.</p>
+                    <p>In a real implementation, you would need a backend API that connects to KeyAuth's admin endpoints:</p>
+                    <p><code>POST /api/users/list</code> - Fetch all users</p>
+                    <p><code>POST /api/users/activate</code> - Activate a user</p>
+                    <p><code>POST /api/users/deactivate</code> - Deactivate a user</p>
+                    <p><code>POST /api/users/delete</code> - Delete a user</p>
+                    <p><code>POST /api/users/reset-hwid</code> - Reset user's HWID</p>
+                </div>
+                
+                <div class="admin-header">
+                    <h1>User Management</h1>
+                </div>
+                
+                <div class="admin-stats">
+                    <div class="admin-stat-card">
+                        <h3>Total Users</h3>
+                        <p id="totalUsers">0</p>
+                    </div>
+                    <div class="admin-stat-card">
+                        <h3>Active Users</h3>
+                        <p id="activeUsers">0</p>
+                    </div>
+                    <div class="admin-stat-card">
+                        <h3>Inactive Users</h3>
+                        <p id="inactiveUsers">0</p>
+                    </div>
+                    <div class="admin-stat-card">
+                        <h3>Expired Licenses</h3>
+                        <p id="expiredUsers">0</p>
+                    </div>
+                </div>
+                
+                <div class="admin-actions">
+                    <h2>Quick Actions</h2>
+                    <div class="action-buttons">
+                        <button class="action-btn" id="refreshUsersBtn">
+                            <i class="fas fa-sync-alt"></i> Refresh Users
+                        </button>
+                        <button class="action-btn" id="addUserBtn">
+                            <i class="fas fa-user-plus"></i> Add New User
+                        </button>
+                        <button class="action-btn" id="generateLicensesBtn">
+                            <i class="fas fa-key"></i> Generate Licenses
+                        </button>
+                        <button class="action-btn" id="exportUsersBtn">
+                            <i class="fas fa-file-export"></i> Export Users
+                        </button>
+                    </div>
+                </div>
+                
+                <div class="users-table">
+                    <h2>
+                        User List
+                        <div style="font-size: 1rem; font-weight: normal;">
+                            <input type="text" id="searchUsers" placeholder="Search users..." class="admin-password-input" style="width: 250px;">
+                        </div>
+                    </h2>
+                    <div class="search-box">
+                    </div>
+                    <table id="usersTable">
+                        <thead>
+                            <tr>
+                                <th data-sort="username">Username <i class="fas fa-sort"></i></th>
+                                <th data-sort="license">License <i class="fas fa-sort"></i></th>
+                                <th data-sort="status">Status <i class="fas fa-sort"></i></th>
+                                <th data-sort="expiry">Expiry Date <i class="fas fa-sort"></i></th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="usersTableBody">
+                            <tr>
+                                <td colspan="5" style="text-align: center;">
+                                    <div class="loading"></div> Loading users from KeyAuth...
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                
+                <a href="dashboard.html" class="back-link">
+                    <i class="fas fa-arrow-left"></i> Back to Dashboard
+                </a>
+            </div>
+        </div>
+    </div>
+    
+    <div id="notification" class="notification"></div>
+    
+    <script src="keyauth.js"></script>
+    <script>
+        // Initialize KeyAuth
+        const KeyAuthApp = new KeyAuth({
+            name: "Newaccbroken6's Application",
+            ownerid: "WiHSkheI6x",
+            version: "1.0"
+        });
+        
+        // API Endpoints for KeyAuth Integration
+        const API_ENDPOINTS = {
+            LIST_USERS: 'POST /api/users/list',
+            ACTIVATE_USER: 'POST /api/users/activate',
+            DEACTIVATE_USER: 'POST /api/users/deactivate',
+            DELETE_USER: 'POST /api/users/delete',
+            RESET_HWID: 'POST /api/users/reset-hwid'
+        };
+        
+        let keyauthInitialized = false;
+        
+        document.addEventListener('DOMContentLoaded', function() {
+            // Display KeyAuth info
+            document.getElementById('appName').textContent = KeyAuthApp.name;
+            document.getElementById('ownerId').textContent = KeyAuthApp.ownerid;
+            
+            // Check if user is logged in
+            const userData = localStorage.getItem('keyauth_user');
+            if (!userData) {
+                window.location.href = 'index.html';
+                return;
+            }
+            
+            const user = JSON.parse(userData);
+            document.getElementById('usernameDisplay').textContent = user.username || 'User';
+            
+            // Show admin access modal
+            document.getElementById('adminAccessModal').style.display = 'flex';
+            
+            // Admin access verification
+            document.getElementById('verifyAdminAccess').addEventListener('click', function() {
+                const password = document.getElementById('adminAccessPassword').value;
+                if (password === 'admin123') {
+                    // Grant access
+                    document.getElementById('adminAccessModal').style.display = 'none';
+                    initializeAdminPanel();
+                } else {
+                    alert('Invalid admin password!');
+                }
+            });
+            
+            // Allow Enter key to submit password
+            document.getElementById('adminAccessPassword').addEventListener('keypress', function(e) {
+                if (e.key === 'Enter') {
+                    document.getElementById('verifyAdminAccess').click();
+                }
+            });
+        });
+        
+        async function initializeAdminPanel() {
+            // Initialize KeyAuth connection
+            try {
+                const initResult = await KeyAuthApp.initialize();
+                if (initResult.success) {
+                    document.getElementById('connectionStatus').innerHTML = '<span style="color: #2ecc71;">Connected</span>';
+                    keyauthInitialized = true;
+                    // Load users from KeyAuth
+                    loadUsersFromKeyAuth();
+                } else {
+                    document.getElementById('connectionStatus').innerHTML = '<span style="color: #e74c3c;">Connection Failed: ' + initResult.message + '</span>';
+                    showErrorMessage('Failed to connect to KeyAuth: ' + initResult.message);
+                }
+            } catch (error) {
+                document.getElementById('connectionStatus').innerHTML = '<span style="color: #e74c3c;">Connection Error</span>';
+                showErrorMessage('Error connecting to KeyAuth: ' + error.message);
+            }
+            
+            // Event listeners
+            document.getElementById('refreshUsersBtn').addEventListener('click', loadUsersFromKeyAuth);
+            document.getElementById('addUserBtn').addEventListener('click', showAddUserForm);
+            document.getElementById('generateLicensesBtn').addEventListener('click', showGenerateLicensesForm);
+            document.getElementById('exportUsersBtn').addEventListener('click', exportUsers);
+            
+            // Search functionality
+            document.getElementById('searchUsers').addEventListener('input', function() {
+                const searchTerm = this.value.toLowerCase();
+                const rows = document.querySelectorAll('#usersTableBody tr');
+                
+                rows.forEach(row => {
+                    const text = row.textContent.toLowerCase();
+                    row.style.display = text.includes(searchTerm) ? '' : 'none';
+                });
+            });
+            
+            // Sort functionality
+            document.querySelectorAll('th[data-sort]').forEach(th => {
+                th.addEventListener('click', function() {
+                    const sortBy = this.getAttribute('data-sort');
+                    const tbody = document.getElementById('usersTableBody');
+                    const rows = Array.from(tbody.querySelectorAll('tr'));
+                    
+                    rows.sort((a, b) => {
+                        const aText = a.cells[Array.from(th.parentNode.children).indexOf(th)].textContent.trim();
+                        const bText = b.cells[Array.from(th.parentNode.children).indexOf(th)].textContent.trim();
+                        return aText.localeCompare(bText);
+                    });
+                    
+                    // Clear and re-append sorted rows
+                    while (tbody.firstChild) {
+                        tbody.removeChild(tbody.firstChild);
+                    }
+                    rows.forEach(row => tbody.appendChild(row));
+                    
+                    showNotification('Table sorted by ' + sortBy, 'success');
+                });
+            });
+        }
+        
+        async function loadUsersFromKeyAuth() {
+            if (!keyauthInitialized) {
+                showErrorMessage('KeyAuth not initialized');
+                return;
+            }
+            
+            const tbody = document.getElementById('usersTableBody');
+            tbody.innerHTML = '<tr><td colspan="5" style="text-align: center;"><div class="loading"></div> Loading users from KeyAuth...</td></tr>';
+            
+            try {
+                // In a real implementation, this would fetch users from your backend API
+                // which connects to KeyAuth's admin endpoints
+                
+                // Simulate API delay
+                await new Promise(resolve => setTimeout(resolve, 1500));
+                
+                // Sample data representing what would come from KeyAuth
+                const users = [
+                    {
+                        username: "john_doe",
+                        license: "XXXX-XXXX-XXXX-1234",
+                        status: "active",
+                        expiry: "2025-12-31"
+                    },
+                    {
+                        username: "jane_smith",
+                        license: "XXXX-XXXX-XXXX-5678",
+                        status: "active",
+                        expiry: "2025-11-15"
+                    },
+                    {
+                        username: "mike_wilson",
+                        license: "XXXX-XXXX-XXXX-9012",
+                        status: "inactive",
+                        expiry: "2025-10-01"
+                    },
+                    {
+                        username: "sarah_jones",
+                        license: "XXXX-XXXX-XXXX-3456",
+                        status: "active",
+                        expiry: "2026-01-20"
+                    },
+                    {
+                        username: "robert_brown",
+                        license: "XXXX-XXXX-XXXX-7890",
+                        status: "expired",
+                        expiry: "2025-09-30"
+                    }
+                ];
+                
+                renderUsersTable(users);
+                updateStats(users);
+                
+                showNotification('Users loaded successfully from KeyAuth', 'success');
+            } catch (error) {
+                tbody.innerHTML = '<tr><td colspan="5" style="text-align: center;">Error loading users: ' + error.message + '</td></tr>';
+                showErrorMessage('Error loading users from KeyAuth: ' + error.message);
+            }
+        }
+        
+        function renderUsersTable(users) {
+            const tbody = document.getElementById('usersTableBody');
+            tbody.innerHTML = '';
+            
+            if (users.length === 0) {
+                tbody.innerHTML = '<tr><td colspan="5" style="text-align: center;">No users found</td></tr>';
+                return;
+            }
+            
+            users.forEach(user => {
+                const row = document.createElement('tr');
+                let statusClass = '';
+                let statusText = '';
+                
+                switch(user.status) {
+                    case 'active':
+                        statusClass = 'status-active';
+                        statusText = 'Active';
+                        break;
+                    case 'inactive':
+                        statusClass = 'status-inactive';
+                        statusText = 'Inactive';
+                        break;
+                    case 'expired':
+                        statusClass = 'status-expired';
+                        statusText = 'Expired';
+                        break;
+                    default:
+                        statusText = user.status;
+                }
+                
+                row.innerHTML = `
+                    <td>${user.username}</td>
+                    <td>${user.license}</td>
+                    <td class="${statusClass}">${statusText}</td>
+                    <td>${user.expiry}</td>
+                    <td class="action-cell">
+                        <button class="btn-small btn-activate" data-action="activate" data-username="${user.username}">Activate</button>
+                        <button class="btn-small btn-deactivate" data-action="deactivate" data-username="${user.username}">Deactivate</button>
+                        <button class="btn-small btn-reset" data-action="reset" data-username="${user.username}">Reset HWID</button>
+                        <button class="btn-small btn-delete" data-action="delete" data-username="${user.username}">Delete</button>
+                    </td>
+                `;
+                tbody.appendChild(row);
+            });
+            
+            // Add event listeners to action buttons
+            document.querySelectorAll('[data-action="activate"]').forEach(button => {
+                button.addEventListener('click', function() {
+                    const username = this.getAttribute('data-username');
+                    activateUser(username);
+                });
+            });
+            
+            document.querySelectorAll('[data-action="deactivate"]').forEach(button => {
+                button.addEventListener('click', function() {
+                    const username = this.getAttribute('data-username');
+                    deactivateUser(username);
+                });
+            });
+            
+            document.querySelectorAll('[data-action="reset"]').forEach(button => {
+                button.addEventListener('click', function() {
+                    const username = this.getAttribute('data-username');
+                    resetUserHWID(username);
+                });
+            });
+            
+            document.querySelectorAll('[data-action="delete"]').forEach(button => {
+                button.addEventListener('click', function() {
+                    const username = this.getAttribute('data-username');
+                    if (confirm(`Are you sure you want to delete user ${username}? This action cannot be undone.`)) {
+                        deleteUser(username);
+                    }
+                });
+            });
+        }
+        
+        function updateStats(users) {
+            document.getElementById('totalUsers').textContent = users.length;
+            
+            const activeUsers = users.filter(user => user.status === 'active').length;
+            document.getElementById('activeUsers').textContent = activeUsers;
+            
+            const inactiveUsers = users.filter(user => user.status === 'inactive').length;
+            document.getElementById('inactiveUsers').textContent = inactiveUsers;
+            
+            const expiredUsers = users.filter(user => user.status === 'expired').length;
+            document.getElementById('expiredUsers').textContent = expiredUsers;
+        }
+        
+        async function activateUser(username) {
+            if (!keyauthInitialized) {
+                showNotification('KeyAuth not initialized', 'error');
+                return;
+            }
+            
+            try {
+                // In a real implementation, this would call your backend API
+                // which connects to KeyAuth's activate user endpoint
+                
+                // Simulate API call
+                await new Promise(resolve => setTimeout(resolve, 500));
+                showNotification(`User ${username} activated successfully!`, 'success');
+                // Refresh the user list
+                loadUsersFromKeyAuth();
+            } catch (error) {
+                showNotification(`Error activating user ${username}: ` + error.message, 'error');
+            }
+        }
+        
+        async function deactivateUser(username) {
+            if (!keyauthInitialized) {
+                showNotification('KeyAuth not initialized', 'error');
+                return;
+            }
+            
+            try {
+                // In a real implementation, this would call your backend API
+                // which connects to KeyAuth's deactivate user endpoint
+                
+                // Simulate API call
+                await new Promise(resolve => setTimeout(resolve, 500));
+                showNotification(`User ${username} deactivated successfully!`, 'success');
+                // Refresh the user list
+                loadUsersFromKeyAuth();
+            } catch (error) {
+                showNotification(`Error deactivating user ${username}: ` + error.message, 'error');
+            }
+        }
+        
+        async function resetUserHWID(username) {
+            if (!keyauthInitialized) {
+                showNotification('KeyAuth not initialized', 'error');
+                return;
+            }
+            
+            try {
+                // In a real implementation, this would call your backend API
+                // which connects to KeyAuth's reset HWID endpoint
+                
+                // Simulate API call
+                await new Promise(resolve => setTimeout(resolve, 500));
+                showNotification(`HWID reset for user ${username}!`, 'success');
+            } catch (error) {
+                showNotification(`Error resetting HWID for user ${username}: ` + error.message, 'error');
+            }
+        }
+        
+        async function deleteUser(username) {
+            if (!keyauthInitialized) {
+                showNotification('KeyAuth not initialized', 'error');
+                return;
+            }
+            
+            try {
+                // In a real implementation, this would call your backend API
+                // which connects to KeyAuth's delete user endpoint
+                
+                // Simulate API call
+                await new Promise(resolve => setTimeout(resolve, 500));
+                showNotification(`User ${username} deleted successfully!`, 'success');
+                // Refresh the user list
+                loadUsersFromKeyAuth();
+            } catch (error) {
+                showNotification(`Error deleting user ${username}: ` + error.message, 'error');
+            }
+        }
+        
+        function showAddUserForm() {
+            showNotification('Add user functionality would connect to KeyAuth in a real implementation', 'success');
+        }
+        
+        function showGenerateLicensesForm() {
+            showNotification('License generation functionality would connect to KeyAuth in a real implementation', 'success');
+        }
+        
+        function exportUsers() {
+            showNotification('Users exported successfully!', 'success');
+        }
+        
+        function showNotification(message, type) {
+            const notification = document.getElementById('notification');
+            notification.textContent = message;
+            notification.className = 'notification ' + type + ' show';
+            
+            setTimeout(() => {
+                notification.classList.remove('show');
+            }, 3000);
+        }
+        
+        function showErrorMessage(message) {
+            const errorDiv = document.createElement('div');
+            errorDiv.className = 'error-message';
+            errorDiv.textContent = message;
+            document.querySelector('.admin-container').insertBefore(errorDiv, document.querySelector('.admin-stats'));
+            
+            // Remove error message after 5 seconds
+            setTimeout(() => {
+                if (errorDiv.parentNode) {
+                    errorDiv.parentNode.removeChild(errorDiv);
+                }
+            }, 5000);
+        }
+    </script>
+</body>
+</html>
